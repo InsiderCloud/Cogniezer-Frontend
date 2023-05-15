@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: LoginPage(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Cogniezer',
-      home: Center(child: Text('Hello World')),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            Container(
+                height: 400,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/login_bg.jpg'),
+                      fit: BoxFit.fill
+                  ),
+                )
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
