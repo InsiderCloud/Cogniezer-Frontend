@@ -1,32 +1,16 @@
 import 'package:flutter/material.dart';
+import 'pages/LoginPage.dart';
 
 void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: LoginPage(),
-  ));
+  runApp(MyApp());
 }
 
-class LoginPage extends StatelessWidget {
+class MyApp extends StatelessWidget{
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Container(
-                height: 400,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/login_bg.jpg'),
-                      fit: BoxFit.fill
-                  ),
-                )
-            ),
-          ],
-        ),
-      ),
+  Widget build(BuildContext context){
+    return MaterialApp(
+      home: LoginPage(),
     );
   }
 }
+
