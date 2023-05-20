@@ -1,6 +1,8 @@
+import 'package:cogniezer_app/components/HaveAnAccountCheck.dart';
+import 'package:cogniezer_app/components/button.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class SignPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +24,12 @@ class LoginPage extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.only(top: 50),
                       child: Center(
-                        child: Text("Login", style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),),
+                        child: Text(
+                          "Sign",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 45,
+                              fontWeight: FontWeight.bold),),
                       ),
                     ),
                   ),
@@ -56,6 +63,19 @@ class LoginPage extends StatelessWidget {
                           child: TextField(
                             decoration: InputDecoration(
                                 border: InputBorder.none,
+                                hintText: "Name",
+                                hintStyle: TextStyle(color: Colors.grey[400])
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                              border: Border(bottom: BorderSide(color: Colors.grey))
+                          ),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
                                 hintText: "Email or Phone Number",
                                 hintStyle: TextStyle(color: Colors.grey[400])
                             ),
@@ -75,24 +95,27 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 30,),
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                            colors: [
-                              Color.fromRGBO(178, 69, 146, 1.0),
-                              Color.fromRGBO(241, 95, 121, .7),
-                            ]
-                        )
-                    ),
-                    child: Center(
-                      child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                    ),
-                  ),
-                  SizedBox(height: 70,),
-                  Text("Forgot Password?", style: TextStyle(color: Color.fromRGBO(178, 69, 146, 1.0)),)
+                   MainElevatedButton(
+                      onPressed: () {
 
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),),
+                    ),
+                    SizedBox(height: 10,),
+
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          foregroundColor: Color.fromRGBO(178, 69, 146, 1.0)
+                      ),
+                      onPressed: () {
+                        
+                      },
+                      child: Text("Already Have An Account? Sign In"),
+                    ),
                 ],
               ),
             ),

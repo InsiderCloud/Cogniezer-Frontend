@@ -1,10 +1,12 @@
-import 'package:cogniezer_app/pages/Welcome/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
-
+import 'pages/SignPage.dart';
+import 'package:device_preview/device_preview.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(DevicePreview(
+    builder: (context) => MyApp(), // Wrap your app
+  ),);
 }
 
 class MyApp extends StatelessWidget{
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget{
         primaryColor: kPrimaryColorG1,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: WelcomeScreen(),
+      home: SignPage(),
     );
   }
 }
