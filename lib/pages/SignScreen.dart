@@ -1,8 +1,10 @@
 import 'package:cogniezer_app/components/HaveAnAccountCheck.dart';
 import 'package:cogniezer_app/components/button.dart';
 import 'package:flutter/material.dart';
+import 'LoginScreen.dart';
 
-class SignPage extends StatelessWidget {
+class SignScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,19 +105,18 @@ class SignPage extends StatelessWidget {
                         "Sign Up",
                         style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.bold),),
+                          fontWeight: FontWeight.bold),
+                      ),
                     ),
                     SizedBox(height: 10,),
-
-                    TextButton(
-                      style: TextButton.styleFrom(
-                          foregroundColor: Color.fromRGBO(178, 69, 146, 1.0)
-                      ),
-                      onPressed: () {
-                        
-                      },
-                      child: Text("Already Have An Account? Sign In"),
-                    ),
+                    HaveAnAccountCheck(
+                        login: false,
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginScreen()),
+                          );
+                        })
                 ],
               ),
             ),
