@@ -1,6 +1,7 @@
 import 'package:cogniezer_app/components/HaveAnAccountCheck.dart';
 import 'package:cogniezer_app/components/button.dart';
 import 'package:flutter/material.dart';
+import '../components/OrDivider.dart';
 import 'LoginScreen.dart';
 
 class SignScreen extends StatelessWidget {
@@ -8,6 +9,7 @@ class SignScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Container(
         child: Column(
@@ -116,7 +118,8 @@ class SignScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(builder: (context) => LoginScreen()),
                           );
-                        })
+                        }),
+                  OrDivider(),
                 ],
               ),
             ),
@@ -126,3 +129,4 @@ class SignScreen extends StatelessWidget {
     );
   }
 }
+
