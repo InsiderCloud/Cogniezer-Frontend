@@ -1,5 +1,6 @@
-import 'package:cogniezer_app/constants.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cogniezer_app/constants.dart';
 
 class HaveAnAccountCheck extends StatelessWidget {
   final bool login;
