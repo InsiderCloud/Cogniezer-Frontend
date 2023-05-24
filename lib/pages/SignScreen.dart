@@ -1,8 +1,12 @@
-import 'package:cogniezer_app/components/HaveAnAccountCheck.dart';
-import 'package:cogniezer_app/components/button.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cogniezer_app/components/HaveAnAccountCheck.dart';
+import 'package:cogniezer_app/components/IconsForSign.dart';
+import 'package:cogniezer_app/components/button.dart';
+import '../components/FieldForInput.dart';
 import '../components/OrDivider.dart';
 import 'LoginScreen.dart';
+
 
 class SignScreen extends StatelessWidget {
 
@@ -15,7 +19,7 @@ class SignScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-                height: 400,
+                height: 330,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('assets/images/login_bg.jpg'),
@@ -59,42 +63,21 @@ class SignScreen extends StatelessWidget {
                     ),
                     child: Column(
                       children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(8.0),
+                        FieldForInput(
+                          text: "Name",
                           decoration: BoxDecoration(
-                              border: Border(bottom: BorderSide(color: Colors.grey))
-                          ),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Name",
-                                hintStyle: TextStyle(color: Colors.grey[400])
-                            ),
+                            border: Border(bottom: BorderSide(color: Colors.grey)),
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.all(8.0),
+                        FieldForInput(
+                          text: "Email",
                           decoration: BoxDecoration(
-                              border: Border(bottom: BorderSide(color: Colors.grey))
-                          ),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Email or Phone Number",
-                                hintStyle: TextStyle(color: Colors.grey[400])
-                            ),
+                            border: Border(bottom: BorderSide(color: Colors.grey)),
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Password",
-                                hintStyle: TextStyle(color: Colors.grey[400])
-                            ),
-                          ),
-                        )
+                        FieldForInput(
+                          text: "Password",
+                        ),
                       ],
                     ),
                   ),
@@ -120,6 +103,25 @@ class SignScreen extends StatelessWidget {
                           );
                         }),
                   OrDivider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconsForSign(
+                        src: "assets/icons/facebook.svg",
+                        press: () {},
+
+                      ),
+                      IconsForSign(
+                        src: "assets/icons/twitter.svg",
+                        press: () {},
+
+                      ),
+                      IconsForSign(
+                        src: "assets/icons/google-plus.svg",
+                        press: () {},
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
