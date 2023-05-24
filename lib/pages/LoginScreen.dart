@@ -1,7 +1,8 @@
-import 'package:cogniezer_app/components/HaveAnAccountCheck.dart';
-import 'package:cogniezer_app/components/button.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cogniezer_app/components/HaveAnAccountCheck.dart';
+import 'package:cogniezer_app/components/button.dart';
+import '../components/FieldForInput.dart';
 import 'SignScreen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -57,29 +58,15 @@ class LoginScreen extends StatelessWidget {
                     ),
                     child: Column(
                       children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(8.0),
+                        FieldForInput(
+                          text: "Email",
                           decoration: BoxDecoration(
-                              border: Border(bottom: BorderSide(color: Colors.grey))
-                          ),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Email or Phone Number",
-                                hintStyle: TextStyle(color: Colors.grey[400])
-                            ),
+                            border: Border(bottom: BorderSide(color: Colors.grey)),
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Password",
-                                hintStyle: TextStyle(color: Colors.grey[400])
-                            ),
-                          ),
-                        )
+                        FieldForInput(
+                          text: "Password",
+                        ),
                       ],
                     ),
                   ),
