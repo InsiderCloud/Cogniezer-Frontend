@@ -62,10 +62,11 @@ class LoginScreen extends StatelessWidget {
                           text: "Email",
                           decoration: BoxDecoration(
                             border: Border(bottom: BorderSide(color: Colors.grey)),
-                          ),
+                          ), icon: Icon(Icons.email),
                         ),
                         FieldForInput(
                           text: "Password",
+                          icon: Icon(Icons.lock),
                         ),
                       ],
                     ),
