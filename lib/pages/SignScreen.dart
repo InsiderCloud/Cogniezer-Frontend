@@ -67,16 +67,17 @@ class SignScreen extends StatelessWidget {
                           text: "Name",
                           decoration: BoxDecoration(
                             border: Border(bottom: BorderSide(color: Colors.grey)),
-                          ),
+                          ), icon: Icon(Icons.person_rounded),
                         ),
                         FieldForInput(
                           text: "Email",
                           decoration: BoxDecoration(
                             border: Border(bottom: BorderSide(color: Colors.grey)),
-                          ),
+                          ), icon: Icon(Icons.email),
                         ),
                         FieldForInput(
                           text: "Password",
+                          icon: Icon(Icons.lock),
                         ),
                       ],
                     ),
