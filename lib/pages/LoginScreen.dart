@@ -5,7 +5,42 @@ import 'package:cogniezer_app/components/button.dart';
 import '../components/FieldForInput.dart';
 import 'SignScreen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  
+  bool _isEmailValid = true;
+  bool _isPasswordValid = true;
+  
+  void _validateInputs() {
+    final String email = _emailController.text.trim();
+    final String password = _passwordController.text.trim();
+    
+    final bool isEmailValid = email.isNotEmpty && RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+    final bool isPasswordValid = password.length >= 6;
+
+    setState(() {
+      _isEmailValid = isEmailValid;
+      _isPasswordValid = isPasswordValid;
+
+      if (isEmailValid && isPasswordValid){
+
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,19 +98,22 @@ class LoginScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             border: Border(bottom: BorderSide(color: Colors.grey)),
                           ), icon: Icon(Icons.email),
+                          controller: _emailController,
+                          isValid: _isEmailValid,
                         ),
                         FieldForInput(
                           text: "Password",
                           icon: Icon(Icons.lock),
+                          controller: _passwordController,
+                          isValid: _isPasswordValid,
+                          isPassword: true,
                         ),
                       ],
                     ),
                   ),
                   SizedBox(height: 30,),
                   MainElevatedButton(
-                    onPressed: () {
-
-                    },
+                    onPressed: _validateInputs,
                     child: Text(
                       "Log In",
                       style: TextStyle(
