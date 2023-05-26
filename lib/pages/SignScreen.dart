@@ -8,7 +8,41 @@ import '../components/OrDivider.dart';
 import 'LoginScreen.dart';
 
 
-class SignScreen extends StatelessWidget {
+class SignScreen extends StatefulWidget {
+
+  @override
+  State<SignScreen> createState() => _SignScreenState();
+}
+
+class _SignScreenState extends State<SignScreen> {
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  bool _isNameValid = true;
+  bool _isEmailValid = true;
+  bool _isPasswordValid = true;
+
+  void _validateInputs() {
+    setState(() {
+      _isNameValid = _nameController.text.isNotEmpty;
+      _isEmailValid = _emailController.text.isNotEmpty &&
+          RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(_emailController.text);
+      _isPasswordValid = _passwordController.text.length >= 6;
+
+      if (_isNameValid && _isEmailValid && _isPasswordValid) {
+
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,26 +101,33 @@ class SignScreen extends StatelessWidget {
                           text: "Name",
                           decoration: BoxDecoration(
                             border: Border(bottom: BorderSide(color: Colors.grey)),
-                          ), icon: Icon(Icons.person_rounded),
+                          ),
+                          icon: Icon(Icons.person_rounded),
+                          controller: _nameController,
+                          isValid: _isNameValid,
                         ),
                         FieldForInput(
                           text: "Email",
                           decoration: BoxDecoration(
                             border: Border(bottom: BorderSide(color: Colors.grey)),
-                          ), icon: Icon(Icons.email),
+                          ),
+                          icon: Icon(Icons.email),
+                          controller: _emailController,
+                          isValid: _isEmailValid,
                         ),
                         FieldForInput(
                           text: "Password",
                           icon: Icon(Icons.lock),
+                          controller: _passwordController,
+                          isValid: _isPasswordValid,
+                          isPassword: true,
                         ),
                       ],
                     ),
                   ),
                   SizedBox(height: 30,),
                    MainElevatedButton(
-                      onPressed: () {
-
-                      },
+                      onPressed: _validateInputs,
                       child: Text(
                         "Sign Up",
                         style: TextStyle(
