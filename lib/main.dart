@@ -1,3 +1,4 @@
+import 'package:cogniezer_app/pages/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget{
         primaryColor: kPrimaryColorG1,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: SignScreen(),
+      home: SplashScreen(),
     );
   }
 }
