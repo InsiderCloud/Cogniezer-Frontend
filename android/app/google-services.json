@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "752201368788",
+    "project_id": "cogniezer-app",
+    "storage_bucket": "cogniezer-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752201368788:android:3d0370e769a72ba2402741",
+        "android_client_info": {
+          "package_name": "com.example.cogniezer_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkzu3xcQcc11RHNa4iB8RvrhTCRp6XDHM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
