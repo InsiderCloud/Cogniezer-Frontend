@@ -1,13 +1,13 @@
+import 'package:cogniezer_app/components/OrDivider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cogniezer_app/components/HaveAnAccountCheck.dart';
-import 'package:cogniezer_app/components/IconsForSign.dart';
-import 'package:cogniezer_app/components/button.dart';
-import '../components/FieldForInput.dart';
-import '../components/OrDivider.dart';
 import 'HomeScreen.dart';
 import 'LoginScreen.dart';
+import '../components/FieldForInput.dart';
+import '../components/HaveAnAccountCheck.dart';
+import '../components/IconsForSign.dart';
+import '../components/button.dart';
 
 class SignScreen extends StatefulWidget {
   @override
@@ -27,7 +27,8 @@ class _SignScreenState extends State<SignScreen> {
     setState(() {
       _isNameValid = _nameController.text.isNotEmpty;
       _isEmailValid = _emailController.text.isNotEmpty &&
-          RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+          RegExp(
+              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
               .hasMatch(_emailController.text);
       _isPasswordValid = _passwordController.text.length >= 6;
 
@@ -37,19 +38,27 @@ class _SignScreenState extends State<SignScreen> {
     });
   }
 
-  void _saveUserToDatabase(BuildContext context) {
-    FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: _emailController.text, password: _passwordController.text)
-        .then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()));
-    }).onError((error, stackTrace) {
-      print("Error ${error.toString()}");
-    });
+  void _saveUserToDatabase(BuildContext context) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+          email: _emailController.text, password: _passwordController.text);
+      if (userCredential.user != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
-
 
   @override
   void dispose() {
@@ -70,9 +79,11 @@ class _SignScreenState extends State<SignScreen> {
             Container(
               height: 330,
               decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/login_bg.jpg'),
-                      fit: BoxFit.fill)),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/login_bg.jpg'),
+                  fit: BoxFit.fill,
+                ),
+              ),
               child: Stack(
                 children: <Widget>[
                   Positioned(
@@ -82,9 +93,10 @@ class _SignScreenState extends State<SignScreen> {
                         child: Text(
                           "Sign",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 45,
-                              fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            fontSize: 45,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -99,21 +111,24 @@ class _SignScreenState extends State<SignScreen> {
                   Container(
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color.fromRGBO(143, 148, 251, .2),
-                              blurRadius: 20.0,
-                              offset: Offset(0, 10))
-                        ]),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromRGBO(143, 148, 251, .2),
+                          blurRadius: 20.0,
+                          offset: Offset(0, 10),
+                        ),
+                      ],
+                    ),
                     child: Column(
                       children: <Widget>[
                         FieldForInput(
                           text: "Name",
                           decoration: BoxDecoration(
-                            border:
-                                Border(bottom: BorderSide(color: Colors.grey)),
+                            border: Border(
+                              bottom: BorderSide(color: Colors.grey),
+                            ),
                           ),
                           icon: Icon(Icons.person_rounded),
                           controller: _nameController,
@@ -122,8 +137,9 @@ class _SignScreenState extends State<SignScreen> {
                         FieldForInput(
                           text: "Email",
                           decoration: BoxDecoration(
-                            border:
-                                Border(bottom: BorderSide(color: Colors.grey)),
+                            border: Border(
+                              bottom: BorderSide(color: Colors.grey),
+                            ),
                           ),
                           icon: Icon(Icons.email),
                           controller: _emailController,
@@ -139,29 +155,27 @@ class _SignScreenState extends State<SignScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
+                  SizedBox(height: 30),
                   MainElevatedButton(
                     onPressed: () => _validateInputs(context),
                     child: Text(
                       "Sign Up",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  SizedBox(height: 10),
                   HaveAnAccountCheck(
-                      login: false,
-                      press: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()),
-                        );
-                      }),
+                    login: false,
+                    press: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
+                    },
+                  ),
                   OrDivider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
