@@ -1,4 +1,5 @@
 import 'package:cogniezer_app/components/OrDivider.dart';
+import 'package:cogniezer_app/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -190,7 +191,11 @@ class _SignScreenState extends State<SignScreen> {
                       ),
                       IconsForSign(
                         src: "assets/icons/google-plus.svg",
-                        press: () {},
+                        press: () async {
+                          await FirebaseServices().signInWithGoogle();
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => HomeScreen()));
+                        },
                       ),
                     ],
                   ),
