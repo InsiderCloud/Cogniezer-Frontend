@@ -46,6 +46,26 @@ class HomeContent extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "How do you feel today?",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Icon(
+                      Icons.more_horiz,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
