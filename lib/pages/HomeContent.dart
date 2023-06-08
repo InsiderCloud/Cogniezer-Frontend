@@ -66,6 +66,72 @@ class HomeContent extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 25,
+                ),
+
+                //Emojies
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        EmojiFace(
+                          emojiFace: '😊',
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "Fine",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        EmojiFace(
+                          emojiFace: '😃',
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "Excellent",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        EmojiFace(
+                          emojiFace: '😔',
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "Sad",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        EmojiFace(
+                          emojiFace: '😠',
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "Angry",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ],
+                )
               ],
             ),
           ),
