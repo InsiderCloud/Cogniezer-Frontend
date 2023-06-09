@@ -14,7 +14,7 @@ class EmojiFace extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: kPrimaryColorG2,
+        color: HomeScreenBtnBgColor,
         borderRadius: BorderRadius.circular(12),
       ),
       padding: EdgeInsets.all(12),
