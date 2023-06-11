@@ -60,3 +60,26 @@ Widget userProfile() {
     ),
   );
 }
+
+Widget colorTile(IconData icon, Color color, String text) {
+  return ListTile(
+    leading: Container(
+      child: Icon(icon, color: color),
+      height: 45,
+      width: 45,
+      decoration: BoxDecoration(
+        color: kPrimaryColorG2.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(18),
+      ),
+    ),
+    title: Text(
+      text,
+      style: TextStyle(fontWeight: FontWeight.w500, color: kPrimaryColorG1),
+    ),
+    trailing: Icon(
+      Icons.arrow_forward_ios,
+      color: kPrimaryColorG1,
+      size: 20,
+    ),
+  );
+}
