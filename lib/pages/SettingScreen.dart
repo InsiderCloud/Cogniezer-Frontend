@@ -23,6 +23,10 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
             userProfile(),
             CustomDivider(),
+            SizedBox(
+              height: 30,
+            ),
+            colorTiles(),
           ],
         ),
       ),
