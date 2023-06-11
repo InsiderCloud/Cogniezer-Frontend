@@ -22,11 +22,22 @@ class _SettingScreenState extends State<SettingScreen> {
               height: 35,
             ),
             userProfile(),
+            CustomDivider(),
           ],
         ),
       ),
     );
   }
+}
+
+Widget CustomDivider() {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Divider(
+      thickness: 0.75,
+      color: kPrimaryColorG1,
+    ),
+  );
 }
 
 Widget userProfile() {
