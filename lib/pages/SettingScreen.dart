@@ -61,6 +61,30 @@ Widget userProfile() {
   );
 }
 
+Widget colorTiles() {
+  return Column(
+    children: [
+      colorTile(Icons.person_outline, kPrimaryColorG1, "Personal Data"),
+      SizedBox(
+        height: 30,
+      ),
+      colorTile(Icons.lock_outlined, kPrimaryColorG1, "Security"),
+      SizedBox(
+        height: 30,
+      ),
+      colorTile(Icons.email_outlined, kPrimaryColorG1, "Contact Us"),
+      SizedBox(
+        height: 30,
+      ),
+      colorTile(Icons.star_border_outlined, kPrimaryColorG1, "Rate this App"),
+      SizedBox(
+        height: 30,
+      ),
+      colorTile(Icons.info_outline, kPrimaryColorG1, "About Us"),
+    ],
+  );
+}
+
 Widget colorTile(IconData icon, Color color, String text) {
   return ListTile(
     leading: Container(
