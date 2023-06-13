@@ -49,6 +49,8 @@ class _SignScreenState extends State<SignScreen> {
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
         );
+      } else {
+        print("Sign Failed");
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -183,7 +185,11 @@ class _SignScreenState extends State<SignScreen> {
                     children: [
                       IconsForSign(
                         src: "assets/icons/facebook.svg",
-                        press: () {},
+                        press: () async {
+                          await FirebaseServices().signInWithFacebook();
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => HomeScreen()));
+                        },
                       ),
                       IconsForSign(
                         src: "assets/icons/twitter.svg",
