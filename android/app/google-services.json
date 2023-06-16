@@ -12,7 +12,20 @@
           "package_name": "com.example.cogniezer_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "752201368788-fqhcnha20jda7as1qg6is894hko1tacm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cogniezer_app",
+            "certificate_hash": "d7bc3bda8ee8ea565ea3969e5bff4bac33b2de5f"
+          }
+        },
+        {
+          "client_id": "752201368788-jcjo4fb7qucn804u118gmf2n21b953jb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBkzu3xcQcc11RHNa4iB8RvrhTCRp6XDHM"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752201368788-jcjo4fb7qucn804u118gmf2n21b953jb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
