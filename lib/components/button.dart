@@ -15,8 +15,8 @@ class MainElevatedButton extends StatelessWidget {
     this.borderRadius,
     this.height = 50.0,
     required this.child,
-    this.gradient = const LinearGradient(colors: [kPrimaryColorG1, kPrimaryColorG2]),
-     
+    this.gradient =
+        const LinearGradient(colors: [kPrimaryColorG1, kPrimaryColorG2]),
   }) : super(key: key);
 
   @override
@@ -30,7 +30,6 @@ class MainElevatedButton extends StatelessWidget {
         gradient: gradient,
         borderRadius: borderRadius,
       ),
-
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

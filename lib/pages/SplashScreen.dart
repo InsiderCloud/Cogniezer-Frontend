@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cogniezer_app/constants.dart';
 import 'package:cogniezer_app/pages/SignScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   style: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.w900,
-                      color: Colors.red
+                      color: kPrimaryColorG1,
                   ),
                 ),
               ),
