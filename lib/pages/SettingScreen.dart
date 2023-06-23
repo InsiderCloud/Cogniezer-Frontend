@@ -26,7 +26,7 @@ class _SettingScreenState extends State<SettingScreen> {
             SizedBox(
               height: 30,
             ),
-            colorTiles(),
+            colorTiles(context),
           ],
         ),
       ),
@@ -65,31 +65,31 @@ Widget userProfile() {
   );
 }
 
-Widget colorTiles() {
+Widget colorTiles(BuildContext context) {
   return Column(
     children: [
-      colorTile(Icons.person_outline, kPrimaryColorG1, "Personal Data"),
+      colorTile(Icons.person_outline, kPrimaryColorG1, "Personal Data", '/personal_data', context),
       SizedBox(
         height: 30,
       ),
-      colorTile(Icons.lock_outlined, kPrimaryColorG1, "Security"),
+      colorTile(Icons.lock_outlined, kPrimaryColorG1, "Security", '/security', context),
       SizedBox(
         height: 30,
       ),
-      colorTile(Icons.email_outlined, kPrimaryColorG1, "Contact Us"),
+      colorTile(Icons.email_outlined, kPrimaryColorG1, "Contact Us", '/contact_us', context),
       SizedBox(
         height: 30,
       ),
-      colorTile(Icons.star_border_outlined, kPrimaryColorG1, "Rate this App"),
+      colorTile(Icons.star_border_outlined, kPrimaryColorG1, "Rate this App", '/rate_app', context),
       SizedBox(
         height: 30,
       ),
-      colorTile(Icons.info_outline, kPrimaryColorG1, "About Us"),
+      colorTile(Icons.info_outline, kPrimaryColorG1, "About Us", '/about_us', context),
     ],
   );
 }
 
-Widget colorTile(IconData icon, Color color, String text) {
+Widget colorTile(IconData icon, Color color, String text, String routeName, BuildContext context) {
   return ListTile(
     leading: Container(
       child: Icon(icon, color: color),
@@ -104,10 +104,15 @@ Widget colorTile(IconData icon, Color color, String text) {
       text,
       style: TextStyle(fontWeight: FontWeight.w500, color: kPrimaryColorG1),
     ),
-    trailing: Icon(
-      Icons.arrow_forward_ios,
-      color: kPrimaryColorG1,
-      size: 20,
+    trailing: TextButton(
+      onPressed: () {
+        Navigator.pushNamed(context, routeName);
+      },
+      child: Icon(
+        Icons.arrow_forward_ios,
+        color: kPrimaryColorG1,
+        size: 20,
+      ),
     ),
   );
 }
