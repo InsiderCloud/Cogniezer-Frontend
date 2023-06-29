@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 
 import '../constants.dart';
 import 'HomeContent.dart';
@@ -20,9 +21,10 @@ class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   List<Widget> _pages = [
-    SettingScreen(),
-    HomeContent(),
     ProfileScreen(),
+    HomeContent(),
+    SettingScreen(),
+
   ];
 
   @override
@@ -32,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: CurvedNavigationBar(
         items: [
           Icon(
-            Icons.settings,
+            Ionicons.grid_sharp,
             color: Colors.white,
           ),
           Icon(
@@ -40,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.white,
           ),
           Icon(
-            Icons.person,
+            Ionicons.settings_sharp,
             color: Colors.white,
           ),
         ],

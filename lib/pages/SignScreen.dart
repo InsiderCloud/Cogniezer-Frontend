@@ -19,6 +19,7 @@ class _SignScreenState extends State<SignScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  final FirebaseServices _firebaseServices = FirebaseServices();
 
   bool _isNameValid = true;
   bool _isEmailValid = true;
@@ -198,9 +199,12 @@ class _SignScreenState extends State<SignScreen> {
                       IconsForSign(
                         src: "assets/icons/google-plus.svg",
                         press: () async {
-                          await FirebaseServices().signInWithGoogle();
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => HomeScreen()));
+                          bool? result = await _firebaseServices.signInWithGoogle();
+                          if(result !=null) {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => HomeScreen()));
+                          }
+
                         },
                       ),
                     ],
