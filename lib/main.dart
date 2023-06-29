@@ -1,17 +1,14 @@
 import 'package:cogniezer_app/pages/AboutUsScreen.dart';
 import 'package:cogniezer_app/pages/ContactUsScreen.dart';
-import 'package:cogniezer_app/pages/HomeScreen.dart';
 import 'package:cogniezer_app/pages/PersonalDataScreen.dart';
 import 'package:cogniezer_app/pages/RateAppScreen.dart';
 import 'package:cogniezer_app/pages/SecurityScreen.dart';
-import 'package:cogniezer_app/pages/SettingScreen.dart';
 import 'package:cogniezer_app/pages/SplashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 
 import 'constants.dart';
-import 'pages/SignScreen.dart';
 
 
 void main() async {
@@ -40,7 +37,7 @@ class MyApp extends StatelessWidget{
         '/rate_app': (context) => RateAppScreen(),
         '/about_us': (context) => AboutUsScreen(),
       },
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
