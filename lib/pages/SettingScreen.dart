@@ -14,7 +14,7 @@ class _SettingScreenState extends State<SettingScreen> {
   late User? _user;
   late String _userName = '';
   late String _userEmail = '';
-  late ImageProvider<Object>? _profilePic;
+  ImageProvider<Object>? _profilePic;
 
   @override
   void initState() {
@@ -36,18 +36,10 @@ class _SettingScreenState extends State<SettingScreen> {
         setState(() {
           _userName = snapshot.data()!['username'];
           _userEmail = snapshot.data()!['userEmail'];
-          _profilePic = _profilePicFromSnapshot(snapshot);
+          String? profilePicture = snapshot.data()!['userPhoto'];
+          _profilePic = profilePicture != null ? NetworkImage(profilePicture) : null;
         });
       }
-    }
-  }
-
-  ImageProvider<Object>? _profilePicFromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    final profilePictureUrl = snapshot.data()?['userPhoto'] as String?;
-    if (profilePictureUrl != null && profilePictureUrl.isNotEmpty) {
-      return NetworkImage(profilePictureUrl);
-    } else {
-      return AssetImage("assets/images/user.png");
     }
   }
 
@@ -80,18 +72,21 @@ class _SettingScreenState extends State<SettingScreen> {
       padding: const EdgeInsets.all(12.0),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundImage: _profilePic,
+          backgroundColor: Colors.white,
+          backgroundImage: _profilePic != null
+          ? _profilePic!
+          :AssetImage("assets/images/user.png"),
           radius: 35,
         ),
         title: Text(
-          _userName.isNotEmpty ? _userName : '',
+          _userName.isNotEmpty ? _userName : 'Loading...',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 24,
               color: kPrimaryColorG1),
         ),
         subtitle: Text(
-          _userEmail.isNotEmpty ? _userEmail : '',
+          _userEmail.isNotEmpty ? _userEmail : 'Loading...',
           style: TextStyle(fontSize: 16, color: kPrimaryColorG1),
         ),
       ),
