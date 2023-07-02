@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 
 import '../components/FieldForInput.dart';
 import '../components/HaveAnAccountCheck.dart';
@@ -123,16 +124,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               bottom: BorderSide(color: Colors.grey),
                             ),
                           ),
-                          icon: Icon(Icons.email),
+                          prefixicon: Icon(Icons.email),
                           controller: _emailController,
                           isValid: _isEmailValid,
+
                         ),
-                        FieldForInput(
+                        FieldForInputWithSuffixIcon(
                           text: "Password",
-                          icon: Icon(Icons.lock),
+                          prefixicon: Icon(Icons.lock),
                           controller: _passwordController,
                           isValid: _isPasswordValid,
                           isPassword: true,
+                          suffixicon: Icon(Ionicons.eye_off),
+
                         ),
                       ],
                     ),

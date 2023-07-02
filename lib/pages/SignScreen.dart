@@ -2,6 +2,7 @@ import 'package:cogniezer_app/components/OrDivider.dart';
 import 'package:cogniezer_app/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 
 import 'HomeScreen.dart';
 import 'LoginScreen.dart';
@@ -82,7 +83,7 @@ class _SignScreenState extends State<SignScreen> {
         child: Column(
           children: <Widget>[
             Container(
-              height: 330,
+              height: 400,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/login_bg.jpg'),
@@ -135,9 +136,10 @@ class _SignScreenState extends State<SignScreen> {
                               bottom: BorderSide(color: Colors.grey),
                             ),
                           ),
-                          icon: Icon(Icons.person_rounded),
+                          prefixicon: Icon(Icons.person_rounded),
                           controller: _nameController,
                           isValid: _isNameValid,
+
                         ),
                         FieldForInput(
                           text: "Email",
@@ -146,16 +148,17 @@ class _SignScreenState extends State<SignScreen> {
                               bottom: BorderSide(color: Colors.grey),
                             ),
                           ),
-                          icon: Icon(Icons.email),
+                          prefixicon: Icon(Icons.email),
                           controller: _emailController,
                           isValid: _isEmailValid,
                         ),
-                        FieldForInput(
+                        FieldForInputWithSuffixIcon(
                           text: "Password",
-                          icon: Icon(Icons.lock),
+                          prefixicon: Icon(Icons.lock),
                           controller: _passwordController,
                           isValid: _isPasswordValid,
                           isPassword: true,
+                          suffixicon: Icon(Ionicons.eye_off),
                         ),
                       ],
                     ),
