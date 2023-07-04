@@ -47,7 +47,7 @@ class FieldForInput extends StatelessWidget {
 
 
 
-class FieldForInputWithSuffixIcon extends StatelessWidget {
+class FieldForInputWithSuffixIcon extends StatefulWidget {
   final String text;
   final BoxDecoration? decoration;
   final Widget prefixicon;
@@ -70,34 +70,48 @@ class FieldForInputWithSuffixIcon extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<FieldForInputWithSuffixIcon> createState() => _FieldForInputWithSuffixIconState();
+}
+
+class _FieldForInputWithSuffixIconState extends State<FieldForInputWithSuffixIcon> {
+  bool _isPasswordVisible = false;
+
+  void _togglePasswordVisibility(){
+    setState(() {
+      _isPasswordVisible = !_isPasswordVisible;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8.0),
-      decoration: decoration,
+      decoration: widget.decoration,
       child: Row(
         children: [
           Expanded(
             child: TextFormField(
-              controller: controller,
-              obscureText: isPassword,
+              controller: widget.controller,
+              obscureText: !_isPasswordVisible,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: text,
+                hintText: widget.text,
                 hintStyle: TextStyle(color: Colors.grey[400]),
-                prefixIcon: prefixicon,
-                suffixIcon: suffixicon,
-                errorText: isValid ? null : 'Invalid $text',
+                errorText: widget.isValid ? null : 'Invalid ${widget.text}',
+                prefixIcon: widget.prefixicon,
+                suffixIcon: InkWell(
+                  onTap: _togglePasswordVisibility,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _isPasswordVisible
+                          ? Icon(Ionicons.eye_off)
+                          : Icon(Ionicons.eye),
+                  ),
+                ),
+
               ),
             ),
           ),
-          if (onSuffixPressed != null)
-            InkWell(
-              onTap: onSuffixPressed,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(Ionicons.eye_off),
-              ),
-            )
         ],
       ),
     );
