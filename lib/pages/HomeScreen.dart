@@ -4,7 +4,7 @@ import 'package:ionicons/ionicons.dart';
 
 import '../constants.dart';
 import 'HomeContent.dart';
-import 'ProfileScreen.dart';
+import 'ToolsScreen.dart';
 import 'SettingScreen.dart';
 
 
@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   List<Widget> _pages = [
-    ProfileScreen(),
+    ToolsScreen(),
     HomeContent(),
     SettingScreen(),
 
