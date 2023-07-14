@@ -13,7 +13,14 @@ class ToDoScreen extends StatefulWidget {
 
 class _ToDoScreenState extends State<ToDoScreen> {
   final todoList = ToDo.todoList();
+  List<ToDo> _foundToDo = [];
   final _todoController = TextEditingController();
+
+  @override
+  void initState() {
+    _foundToDo = todoList;
+    super.initState();
+  }
 
   void _handleToDoChange(ToDo todo) {
     setState(() {
@@ -35,6 +42,21 @@ class _ToDoScreenState extends State<ToDoScreen> {
       ));
     });
     _todoController.clear();
+  }
+
+  void _searchToDoItem(String enteredKeyword) {
+    List<ToDo> results = [];
+    if(enteredKeyword.isEmpty) {
+      results = todoList;
+    }else {
+      results = todoList
+          .where((item) => item.todoText!
+          .toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      _foundToDo = results;
+    });
   }
 
   @override
@@ -88,6 +110,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
                     child: TextField(
+                      onChanged: (value) => _searchToDoItem(value),
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.search),
                         hintText: 'Search',
@@ -98,13 +121,9 @@ class _ToDoScreenState extends State<ToDoScreen> {
                           borderSide: BorderSide.none,
                         ),
                       ),
-                      onChanged: (value) {
-                        // Handle search text changes here
-                        // Update search results accordingly
-                      },
                     ),
                   ),
-                  for(ToDo todo in todoList)
+                  for(ToDo todo in _foundToDo)
                   toDoItem(
                     todo: todo,
                     onToDoChanged: _handleToDoChange,
