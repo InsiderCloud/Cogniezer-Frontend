@@ -20,6 +20,13 @@ class _ToDoScreenState extends State<ToDoScreen> {
     });
   }
 
+  void _deleteToDoItem(String id) {
+    setState(() {
+      todoList.removeWhere((item) => item.id == id);
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +98,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   toDoItem(
                     todo: todo,
                     onToDoChanged: _handleToDoChange,
-                    onDeleteItem: () {},
+                    onDeleteItem: _deleteToDoItem,
                   ),
 
                   //add todo_item
