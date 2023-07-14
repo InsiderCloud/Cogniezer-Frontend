@@ -4,10 +4,21 @@ import 'package:flutter/material.dart';
 
 import '../todo.dart';
 
-class ToDoScreen extends StatelessWidget {
+class ToDoScreen extends StatefulWidget {
    ToDoScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ToDoScreen> createState() => _ToDoScreenState();
+}
+
+class _ToDoScreenState extends State<ToDoScreen> {
   final todoList = ToDo.todoList();
+
+  void _handleToDoChange(ToDo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +88,11 @@ class ToDoScreen extends StatelessWidget {
                     ),
                   ),
                   for(ToDo todo in todoList)
-                  toDoItem(todo: todo,),
+                  toDoItem(
+                    todo: todo,
+                    onToDoChanged: _handleToDoChange,
+                    onDeleteItem: () {},
+                  ),
 
                   //add todo_item
                   Align(
@@ -136,8 +151,6 @@ class ToDoScreen extends StatelessWidget {
                       ],
                     ),
                   )
-
-
                 ],
               ),
             ),
@@ -147,3 +160,5 @@ class ToDoScreen extends StatelessWidget {
     );
   }
 }
+
+
