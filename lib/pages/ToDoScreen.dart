@@ -13,6 +13,7 @@ class ToDoScreen extends StatefulWidget {
 
 class _ToDoScreenState extends State<ToDoScreen> {
   final todoList = ToDo.todoList();
+  final _todoController = TextEditingController();
 
   void _handleToDoChange(ToDo todo) {
     setState(() {
@@ -24,7 +25,16 @@ class _ToDoScreenState extends State<ToDoScreen> {
     setState(() {
       todoList.removeWhere((item) => item.id == id);
     });
+  }
 
+  void _addToDoItem(String toDo) {
+    setState(() {
+      todoList.add(ToDo(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        todoText: toDo,
+      ));
+    });
+    _todoController.clear();
   }
 
   @override
@@ -103,7 +113,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
 
                   //add todo_item
                   Align(
-                    alignment: Alignment.bottomCenter,
+                    alignment: Alignment.center,
                     child: Row(
                       children: [
                         Expanded(
@@ -129,6 +139,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: TextField(
+                              controller: _todoController,
                               decoration: InputDecoration(
                                   hintText: "Add a new todo item",
                                   border: InputBorder.none
@@ -142,7 +153,9 @@ class _ToDoScreenState extends State<ToDoScreen> {
                             right: 20,
                           ),
                           child: ElevatedButton(
-                            onPressed: () {  },
+                            onPressed: () {
+                              _addToDoItem(_todoController.text);
+                            },
                             child: Text('+', style: TextStyle(
                               fontSize: 40,
                             ),
