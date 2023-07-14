@@ -123,7 +123,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                       ),
                     ),
                   ),
-                  for(ToDo todo in _foundToDo)
+                  for(ToDo todo in _foundToDo.reversed)
                   toDoItem(
                     todo: todo,
                     onToDoChanged: _handleToDoChange,
