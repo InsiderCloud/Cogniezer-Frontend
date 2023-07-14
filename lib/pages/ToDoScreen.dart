@@ -1,8 +1,13 @@
+import 'package:cogniezer_app/components/toDoItem.dart';
 import 'package:cogniezer_app/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../todo.dart';
+
 class ToDoScreen extends StatelessWidget {
-  const ToDoScreen({Key? key}) : super(key: key);
+   ToDoScreen({Key? key}) : super(key: key);
+
+  final todoList = ToDo.todoList();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +58,7 @@ class ToDoScreen extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                    padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
                     child: TextField(
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.search),
@@ -71,6 +76,68 @@ class ToDoScreen extends StatelessWidget {
                       },
                     ),
                   ),
+                  for(ToDo todo in todoList)
+                  toDoItem(todo: todo,),
+
+                  //add todo_item
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(
+                              bottom: 20,
+                              right: 20,
+                              left: 20,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 5,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  offset: Offset(0.0, 0.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 0.0,),
+                              ],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                  hintText: "Add a new todo item",
+                                  border: InputBorder.none
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            bottom: 20,
+                            right: 20,
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () {  },
+                            child: Text('+', style: TextStyle(
+                              fontSize: 40,
+                            ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.blue,
+                              minimumSize: Size(60, 60),
+                              elevation: 10,
+                            ),
+
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+
+
                 ],
               ),
             ),
