@@ -1,10 +1,47 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cogniezer_app/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../components/EmojiFace.dart';
 
-class HomeContent extends StatelessWidget {
+class HomeContent extends StatefulWidget {
+  @override
+  State<HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<HomeContent> {
+  late User? _user;
+
+  late String _userName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    _user = FirebaseAuth.instance.currentUser;
+
+    if (_user != null) {
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(_user!.uid)
+          .get();
+
+      if (snapshot.exists) {
+        setState(() {
+          String fullName = snapshot.data()!['username'];
+          List<String> nameParts = fullName.split(' ');
+          _userName = nameParts[0];
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +64,7 @@ class HomeContent extends StatelessWidget {
                     children: [
                       //Hi User
                       Text(
-                        "Hi, Name!",
+                        "Hi, $_userName!",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -136,7 +173,7 @@ class HomeContent extends StatelessWidget {
                         ],
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
