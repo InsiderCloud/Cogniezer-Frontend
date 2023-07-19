@@ -62,6 +62,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: kPrimaryColorG1,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,92 +106,95 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   topRight: Radius.circular(40.0),
                 ),
               ),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-                    child: TextField(
-                      onChanged: (value) => _searchToDoItem(value),
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search),
-                        hintText: 'Search',
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                          borderSide: BorderSide.none,
+              child: SingleChildScrollView(
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                      child: TextField(
+                        onChanged: (value) => _searchToDoItem(value),
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.search),
+                          hintText: 'Search',
+                          fillColor: Colors.grey[200],
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide.none,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  for(ToDo todo in _foundToDo.reversed)
-                  toDoItem(
-                    todo: todo,
-                    onToDoChanged: _handleToDoChange,
-                    onDeleteItem: _deleteToDoItem,
-                  ),
+                    for(ToDo todo in _foundToDo.reversed)
+                    toDoItem(
+                      todo: todo,
+                      onToDoChanged: _handleToDoChange,
+                      onDeleteItem: _deleteToDoItem,
+                    ),
 
-                  //add todo_item
-                  Align(
-                    alignment: Alignment.center,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(
-                              bottom: 20,
-                              right: 20,
-                              left: 20,
-                            ),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 5,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(0.0, 0.0),
-                                  blurRadius: 10.0,
-                                  spreadRadius: 0.0,),
-                              ],
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: TextField(
-                              controller: _todoController,
-                              decoration: InputDecoration(
-                                  hintText: "Add a new todo item",
-                                  border: InputBorder.none
+                    //add todo_item
+                    Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                bottom: 20,
+                                right: 20,
+                                left: 20,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 5,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.grey,
+                                    offset: Offset(0.0, 0.0),
+                                    blurRadius: 10.0,
+                                    spreadRadius: 0.0,),
+                                ],
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: TextField(
+                                controller: _todoController,
+                                decoration: InputDecoration(
+                                    hintText: "Add a new todo item",
+                                    border: InputBorder.none
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            bottom: 20,
-                            right: 20,
-                          ),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _addToDoItem(_todoController.text);
-                            },
-                            child: Text('+', style: TextStyle(
-                              fontSize: 40,
+                          Container(
+                            margin: EdgeInsets.only(
+                              bottom: 20,
+                              right: 20,
                             ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.blue,
-                              minimumSize: Size(60, 60),
-                              elevation: 10,
-                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _addToDoItem(_todoController.text);
+                              },
+                              child: Text('+', style: TextStyle(
+                                fontSize: 40,
+                              ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.blue,
+                                minimumSize: Size(60, 60),
+                                elevation: 10,
+                              ),
 
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
