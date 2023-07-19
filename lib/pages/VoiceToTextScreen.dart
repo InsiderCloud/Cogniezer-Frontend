@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -10,9 +11,9 @@ class VoiceToTextScreen extends StatefulWidget {
 }
 
 class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
+  bool isListening = false;
   TextEditingController _userInputController = TextEditingController();
   TextEditingController _summarizationController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -79,19 +80,27 @@ class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
                       ),
                       child: TextField(
                         controller: _userInputController,
-                        maxLines: 10,
+                        maxLines: 8,
                         decoration: const InputDecoration(
-                          hintText: "Speak or type here...",
+                          hintText: "Press the button to peak or type here...",
                           border: InputBorder.none,
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
                     // Floating Action Button
-                    FloatingActionButton(
-                      onPressed: () {},
-                      child: const Icon(Icons.mic),
+                    AvatarGlow(
+                      animate: isListening,
+                      repeat: true,
+                      endRadius: 80,
+                      glowColor: kPrimaryColorG2,
+                      duration: Duration(milliseconds: 1000),
+                      child: FloatingActionButton(
+                        onPressed: () {},
+                        child: Icon( isListening ? Icons.mic : Icons.mic_none),
+                        backgroundColor: kPrimaryColorG1,
 
+                      ),
                     ),
                     const SizedBox(height: 20),
                     // Summarization text field
@@ -107,7 +116,7 @@ class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
                       ),
                       child: TextField(
                         controller: _summarizationController,
-                        maxLines: 10,
+                        maxLines: 8,
                         readOnly: true,
                         decoration: const InputDecoration(
                           hintText: "Summarization will appear here...",
