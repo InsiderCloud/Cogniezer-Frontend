@@ -71,8 +71,11 @@ class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       decoration: BoxDecoration(
+                        border: Border.all(
+                          color: kPrimaryColorG1,
+                        ),
                         color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(15.0),
+                        borderRadius: BorderRadius.circular(30.0),
                       ),
                       child: TextField(
                         controller: _userInputController,
@@ -96,8 +99,11 @@ class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       decoration: BoxDecoration(
+                        border: Border.all(
+                          color: kPrimaryColorG1,
+                        ),
                         color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(15.0),
+                        borderRadius: BorderRadius.circular(30.0),
                       ),
                       child: TextField(
                         controller: _summarizationController,
@@ -109,7 +115,6 @@ class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
                   ],
                 ),
               ),
