@@ -153,7 +153,7 @@ class _SettingScreenState extends State<SettingScreen> {
           Navigator.pushNamed(context, routeName);
         },
         child: Icon(
-          Icons.arrow_forward_ios,
+          Icons.arrow_forward,
           color: kPrimaryColorG1,
           size: 20,
         ),
