@@ -4,13 +4,12 @@ import '../services.dart';
 import 'SignScreen.dart';
 
 class PersonalDataScreen extends StatelessWidget {
-   const PersonalDataScreen({Key? key}) : super(key: key);
+  const PersonalDataScreen({Key? key}) : super(key: key);
 
   void _signOutGoogle(BuildContext context) {
     FirebaseServices firebaseServices = FirebaseServices();
     firebaseServices.googleSignOut();
-    Navigator.push(context,
-    MaterialPageRoute(builder: (context) => SignScreen())); // Navigate back after signing out
+    Navigator.push(context, MaterialPageRoute(builder: (context) => SignScreen())); // Navigate back after signing out
   }
 
   @override
@@ -38,7 +37,7 @@ class PersonalDataScreen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                 ),
-                const Expanded( // Wrap the text with Expanded to take available space
+                Expanded( // Wrap the text with Expanded to take available space
                   child: Text(
                     'Edit Profile',
                     style: TextStyle(
@@ -76,7 +75,19 @@ class PersonalDataScreen extends StatelessWidget {
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    FocusScope.of(context).unfocus();
+                    // When the user taps the image, show a dialog with the full-size image
+                    showDialog(
+                      context: context,
+                      builder: (context) => Dialog(
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          child: Image.asset(
+                            "assets/images/logo.jpg",
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    );
                   },
                   child: ListView(
                     children: [
@@ -88,14 +99,14 @@ class PersonalDataScreen extends StatelessWidget {
                               height: 130,
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  width: 4,
-                                  color:Colors.white
+                                    width: 4,
+                                    color:Colors.white
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    spreadRadius: 2,
-                                    blurRadius: 10,
-                                    color: Colors.black.withOpacity(0.1)
+                                      spreadRadius: 2,
+                                      blurRadius: 10,
+                                      color: Colors.black.withOpacity(0.1)
                                   )
                                 ],
                                 shape: BoxShape.circle,
@@ -104,29 +115,34 @@ class PersonalDataScreen extends StatelessWidget {
                                   image: AssetImage(
                                       "assets/images/logo.jpg"
                                   ),
-                                )
+                                ),
                               ),
                             ),
                             Positioned(
                               bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
+                              right: 0,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
                                       width: 4,
                                       color: Colors.white
-                                    ),
-                                    color: kPrimaryColorG1,
                                   ),
-                                  child: const Icon(
+                                  color: kPrimaryColorG1,
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    // The edit button is pressed.
+                                  },
+                                  child: Icon(
                                     Icons.edit,
                                     color: Colors.white,
                                   ),
-                                )
-                            )
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -142,7 +158,7 @@ class PersonalDataScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           OutlinedButton(
-                              onPressed: () {},
+                            onPressed: () {},
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 50,
@@ -151,32 +167,32 @@ class PersonalDataScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
-                              child: const Text(
-                                  "Cancel",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  letterSpacing: 2,
-                                  color: Colors.black
-                                ),
+                            child: const Text(
+                              "Cancel",
+                              style: TextStyle(
+                                fontSize: 15,
+                                letterSpacing: 2,
+                                color: Colors.black,
                               ),
+                            ),
                           ),
                           ElevatedButton(
-                              onPressed: () {},
+                            onPressed: () {},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: kPrimaryColorG1,
                               padding: const EdgeInsets.symmetric(horizontal: 50),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
-                              )
-                            ),
-                              child: const Text(
-                                "Save",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  letterSpacing: 2,
-                                  color: Colors.white,
-                                ),
                               ),
+                            ),
+                            child: const Text(
+                              "Save",
+                              style: TextStyle(
+                                fontSize: 15,
+                                letterSpacing: 2,
+                                color: Colors.white,
+                              ),
+                            ),
                           )
                         ],
                       )
@@ -193,23 +209,22 @@ class PersonalDataScreen extends StatelessWidget {
 
   Widget buildTextField(String labelText, String placeholder) {
     return Padding(
-        padding: const EdgeInsets.only(
-          bottom: 30
-        ),
+      padding: const EdgeInsets.only(
+        bottom: 30,
+      ),
       child: TextField(
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(bottom: 5),
           labelText: labelText,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: placeholder,
           hintStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
             color: Colors.grey,
-          )
+          ),
         ),
       ),
     );
   }
-
 }
