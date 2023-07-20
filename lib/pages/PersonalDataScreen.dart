@@ -4,11 +4,11 @@ import '../services.dart';
 import 'SignScreen.dart';
 
 class PersonalDataScreen extends StatelessWidget {
-   PersonalDataScreen({Key? key}) : super(key: key);
+   const PersonalDataScreen({Key? key}) : super(key: key);
 
-  void _signOutGoogle(BuildContext context) async {
+  void _signOutGoogle(BuildContext context) {
     FirebaseServices firebaseServices = FirebaseServices();
-    await firebaseServices.googleSignOut();
+    firebaseServices.googleSignOut();
     Navigator.push(context,
     MaterialPageRoute(builder: (context) => SignScreen())); // Navigate back after signing out
   }
@@ -69,7 +69,7 @@ class PersonalDataScreen extends StatelessWidget {
                 ),
               ),
               child: Container(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   left: 15,
                   top: 20,
                   right: 15,
@@ -99,10 +99,10 @@ class PersonalDataScreen extends StatelessWidget {
                                   )
                                 ],
                                 shape: BoxShape.circle,
-                                image: DecorationImage(
+                                image: const DecorationImage(
                                   fit: BoxFit.cover,
                                   image: AssetImage(
-                                      "assets/images/user.png"
+                                      "assets/images/logo.jpg"
                                   ),
                                 )
                               ),
@@ -121,7 +121,7 @@ class PersonalDataScreen extends StatelessWidget {
                                     ),
                                     color: kPrimaryColorG1,
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.edit,
                                     color: Colors.white,
                                   ),
@@ -130,7 +130,56 @@ class PersonalDataScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      buildTextField("Name", "John"),
+                      buildTextField("Location", "Colombo"),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          OutlinedButton(
+                              onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 50,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                              child: const Text(
+                                  "Cancel",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  letterSpacing: 2,
+                                  color: Colors.black
+                                ),
+                              ),
+                          ),
+                          ElevatedButton(
+                              onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: kPrimaryColorG1,
+                              padding: const EdgeInsets.symmetric(horizontal: 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              )
+                            ),
+                              child: const Text(
+                                "Save",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  letterSpacing: 2,
+                                  color: Colors.white,
+                                ),
+                              ),
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -141,4 +190,26 @@ class PersonalDataScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget buildTextField(String labelText, String placeholder) {
+    return Padding(
+        padding: const EdgeInsets.only(
+          bottom: 30
+        ),
+      child: TextField(
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.only(bottom: 5),
+          labelText: labelText,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+          hintText: placeholder,
+          hintStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey,
+          )
+        ),
+      ),
+    );
+  }
+
 }
