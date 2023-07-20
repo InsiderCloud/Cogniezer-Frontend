@@ -107,6 +107,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                 ),
               ),
               child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
                 keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 child: Column(
                   children: <Widget>[

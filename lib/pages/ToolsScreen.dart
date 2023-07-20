@@ -7,51 +7,59 @@ class ToolsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(30.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(
-                child: Text(
-                  "Tools",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 28,
-                    color: kPrimaryColorG1,
-                    fontWeight: FontWeight.bold,
+              const Text(
+                "Tools",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 28,
+                  color: kPrimaryColorG1,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 30),
+              customDivider(),
+              const SizedBox(height: 30),
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      toolCard(
+                        name: 'Voice to Text Summarization',
+                        routeName: '/voiceToText',
+                        context: context,
+                      ),
+                      const SizedBox(height: 30),
+                      toolCard(
+                        name: 'To Do List',
+                        routeName: '/toDo',
+                        context: context,
+                      ),
+                      const SizedBox(height: 30),
+                      toolCard(
+                        name: 'Task Reminder',
+                        routeName: '/taskReminder',
+                        context: context,
+                      ),
+                      const SizedBox(height: 30),
+                      toolCard(
+                        name: 'ADHD Test',
+                        routeName: '/adhdTest',
+                        context: context,
+                      ),
+                      const SizedBox(height: 30),
+                    ],
                   ),
                 ),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              CustomDivider(),
-              SizedBox(
-                height: 30,
-              ),
-              ToolCard(
-                name: 'Voice to Text Summarization', routeName: '/voiceToText', context: context,
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              ToolCard(
-                name: 'To Do List', routeName: '/toDo', context: context,
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              ToolCard(
-                name: 'Task Reminder', routeName: '/taskReminder', context: context ,
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              ToolCard(
-                name: 'ADHD Test', routeName: '/adhdTest', context: context,
-              ),
-
             ],
           ),
         ),
@@ -59,9 +67,9 @@ class ToolsScreen extends StatelessWidget {
     );
   }
 
-  Widget CustomDivider() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+  Widget customDivider() {
+    return const Padding(
+      padding: EdgeInsets.all(8.0),
       child: Divider(
         thickness: 0.75,
         color: kPrimaryColorG1,
@@ -69,13 +77,11 @@ class ToolsScreen extends StatelessWidget {
     );
   }
 
-  Widget ToolCard
-      ({
-        required String name,
-        required String routeName,
-        required BuildContext context
-      })
-  {
+  Widget toolCard({
+    required String name,
+    required String routeName,
+    required BuildContext context,
+  }) {
     return Stack(
       children: [
         Container(
@@ -95,7 +101,7 @@ class ToolsScreen extends StatelessWidget {
           left: 10,
           child: Text(
             name,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: kPrimaryColorG1,
@@ -109,7 +115,7 @@ class ToolsScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, routeName);
             },
-            child: Icon(
+            child: const Icon(
               Icons.arrow_forward,
               color: kPrimaryColorG1,
             ),
