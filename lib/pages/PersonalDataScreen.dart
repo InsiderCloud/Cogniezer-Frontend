@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
+import '../services.dart';
+import 'SignScreen.dart';
 
 class PersonalDataScreen extends StatelessWidget {
-  const PersonalDataScreen({Key? key}) : super(key: key);
+   PersonalDataScreen({Key? key}) : super(key: key);
+
+  void _signOutGoogle(BuildContext context) async {
+    FirebaseServices firebaseServices = FirebaseServices();
+    await firebaseServices.googleSignOut();
+    Navigator.push(context,
+    MaterialPageRoute(builder: (context) => SignScreen())); // Navigate back after signing out
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +22,7 @@ class PersonalDataScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               top: 60.0,
               left: 30.0,
               right: 30.0,
@@ -22,14 +31,14 @@ class PersonalDataScreen extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back),
                   color: Colors.white,
                   onPressed: () {
                     // Handle back arrow button press here
                     Navigator.pop(context);
                   },
                 ),
-                Expanded( // Wrap the text with Expanded to take available space
+                const Expanded( // Wrap the text with Expanded to take available space
                   child: Text(
                     'Edit Profile',
                     style: TextStyle(
@@ -40,10 +49,10 @@ class PersonalDataScreen extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.logout),
+                  icon: const Icon(Icons.logout),
                   color: Colors.white,
                   onPressed: () {
-
+                    _signOutGoogle(context);
                   },
                 ),
               ],
@@ -51,8 +60,8 @@ class PersonalDataScreen extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40.0),
