@@ -1,10 +1,47 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../services.dart';
 import 'SignScreen.dart';
 
-class PersonalDataScreen extends StatelessWidget {
+class PersonalDataScreen extends StatefulWidget {
    const PersonalDataScreen({Key? key}) : super(key: key);
+
+  @override
+  State<PersonalDataScreen> createState() => _PersonalDataScreenState();
+}
+
+class _PersonalDataScreenState extends State<PersonalDataScreen> {
+  late User? _user;
+  late String _userName = '';
+  ImageProvider<Object>? _profilePic;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    _user = FirebaseAuth.instance.currentUser;
+
+    if (_user != null) {
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(_user!.uid)
+          .get();
+
+      if (snapshot.exists) {
+        setState(() {
+          _userName = snapshot.data()!['username'];
+          String? profilePicture = snapshot.data()!['userPhoto'];
+          _profilePic = profilePicture != null ? NetworkImage(profilePicture) : null;
+        });
+      }
+    }
+  }
 
   void _signOutGoogle(BuildContext context) {
     FirebaseServices firebaseServices = FirebaseServices();
@@ -99,11 +136,11 @@ class PersonalDataScreen extends StatelessWidget {
                                   )
                                 ],
                                 shape: BoxShape.circle,
-                                image: const DecorationImage(
+                                image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: AssetImage(
-                                      "assets/images/logo.jpg"
-                                  ),
+                                  image: _profilePic != null
+                                      ? _profilePic!
+                                      : AssetImage("assets/images/user.png"),
                                 )
                               ),
                             ),
@@ -121,9 +158,14 @@ class PersonalDataScreen extends StatelessWidget {
                                     ),
                                     color: kPrimaryColorG1,
                                   ),
-                                  child: const Icon(
-                                    Icons.edit,
-                                    color: Colors.white,
+                                  child: TextButton(
+                                    onPressed: () {
+
+                                    },
+                                    child: Icon(
+                                        Icons.edit,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 )
                             )
@@ -133,7 +175,7 @@ class PersonalDataScreen extends StatelessWidget {
                       const SizedBox(
                         height: 30,
                       ),
-                      buildTextField("Name", "John"),
+                      buildTextField("Name", _userName.isNotEmpty ? _userName : 'Set Name',),
                       buildTextField("Location", "Colombo"),
                       const SizedBox(
                         height: 30,
@@ -211,5 +253,4 @@ class PersonalDataScreen extends StatelessWidget {
       ),
     );
   }
-
 }
