@@ -49,15 +49,15 @@ class _SettingScreenState extends State<SettingScreen> {
       color: Colors.white,
       child: SafeArea(
         child: ListView(
-          padding: EdgeInsets.all(12),
-          physics: BouncingScrollPhysics(),
+          padding: const EdgeInsets.all(12),
+          physics: const BouncingScrollPhysics(),
           children: [
             Container(
               height: 35,
             ),
             userProfile(),
-            CustomDivider(),
-            SizedBox(
+            customDivider(),
+            const SizedBox(
               height: 30,
             ),
             colorTiles(context),
@@ -75,27 +75,27 @@ class _SettingScreenState extends State<SettingScreen> {
           backgroundColor: Colors.white,
           backgroundImage: _profilePic != null
           ? _profilePic!
-          :AssetImage("assets/images/user.png"),
+          :const AssetImage("assets/images/user.png"),
           radius: 35,
         ),
         title: Text(
           _userName.isNotEmpty ? _userName : 'Loading...',
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 24,
               color: kPrimaryColorG1),
         ),
         subtitle: Text(
           _userEmail.isNotEmpty ? _userEmail : 'Loading...',
-          style: TextStyle(fontSize: 16, color: kPrimaryColorG1),
+          style: const TextStyle(fontSize: 16, color: kPrimaryColorG1),
         ),
       ),
     );
   }
 
-  Widget CustomDivider() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+  Widget customDivider() {
+    return const Padding(
+      padding: EdgeInsets.all(8.0),
       child: Divider(
         thickness: 0.75,
         color: kPrimaryColorG1,
@@ -108,22 +108,22 @@ class _SettingScreenState extends State<SettingScreen> {
       children: [
         colorTile(Icons.person_outline, kPrimaryColorG1, "Personal Data",
             '/personal_data', context),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         colorTile(Icons.lock_outlined, kPrimaryColorG1, "Security", '/security',
             context),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         colorTile(Icons.email_outlined, kPrimaryColorG1, "Contact Us",
             '/contact_us', context),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         colorTile(Icons.star_border_outlined, kPrimaryColorG1, "Rate this App",
             '/rate_app', context),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         colorTile(
@@ -136,23 +136,23 @@ class _SettingScreenState extends State<SettingScreen> {
       BuildContext context) {
     return ListTile(
       leading: Container(
-        child: Icon(icon, color: color),
         height: 45,
         width: 45,
         decoration: BoxDecoration(
           color: kPrimaryColorG2.withOpacity(0.2),
           borderRadius: BorderRadius.circular(18),
         ),
+        child: Icon(icon, color: color),
       ),
       title: Text(
         text,
-        style: TextStyle(fontWeight: FontWeight.w500, color: kPrimaryColorG1),
+        style: const TextStyle(fontWeight: FontWeight.w500, color: kPrimaryColorG1),
       ),
       trailing: TextButton(
         onPressed: () {
           Navigator.pushNamed(context, routeName);
         },
-        child: Icon(
+        child: const Icon(
           Icons.arrow_forward,
           color: kPrimaryColorG1,
           size: 20,
