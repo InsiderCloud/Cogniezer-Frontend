@@ -21,10 +21,22 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   ImageProvider<Object>? _profilePic;
   File? _selectedImage;
 
+  // Create TextEditingController for each text field
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _locationController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     getUserData();
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the TextEditingController objects to free resources
+    _nameController.dispose();
+    _locationController.dispose();
+    super.dispose();
   }
 
   Future<void> _pickImage() async {
@@ -66,6 +78,12 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
         builder: (context) => SignScreen(),
       ),
     ); // Navigate back after signing out
+  }
+
+  // Function to reset text field values
+  void clearTextFields() {
+    _nameController.clear();
+    _locationController.clear();
   }
 
   @override
@@ -208,8 +226,9 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                     buildTextField(
                       "Name",
                       _userName.isNotEmpty ? _userName : 'Set Name',
+                      controller: _nameController,
                     ),
-                    buildTextField("Location", "Colombo"),
+                    buildTextField("Location", "Colombo", controller: _locationController),
                     const SizedBox(
                       height: 30,
                     ),
@@ -217,7 +236,10 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // Clear text fields when "Cancel" button is pressed
+                            clearTextFields();
+                          },
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 50,
@@ -265,10 +287,11 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
     );
   }
 
-  Widget buildTextField(String labelText, String placeholder) {
+  Widget buildTextField(String labelText, String placeholder, {required TextEditingController controller}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 30),
       child: TextField(
+        controller: controller,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(bottom: 5),
           labelText: labelText,
