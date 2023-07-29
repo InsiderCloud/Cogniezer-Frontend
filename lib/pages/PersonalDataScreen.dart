@@ -1,12 +1,15 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../constants.dart';
 import '../services.dart';
 import 'SignScreen.dart';
 
 class PersonalDataScreen extends StatefulWidget {
-   const PersonalDataScreen({Key? key}) : super(key: key);
+  const PersonalDataScreen({Key? key}) : super(key: key);
 
   @override
   State<PersonalDataScreen> createState() => _PersonalDataScreenState();
@@ -16,6 +19,11 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   late User? _user;
   late String _userName = '';
   ImageProvider<Object>? _profilePic;
+  File? _selectedImage;
+
+  // Create TextEditingController for each text field
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _locationController = TextEditingController();
 
   @override
   void initState() {
@@ -23,12 +31,29 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
     getUserData();
   }
 
+  @override
+  void dispose() {
+    // Dispose of the TextEditingController objects to free resources
+    _nameController.dispose();
+    _locationController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _selectedImage = File(pickedImage.path);
+      });
+    }
+  }
+
   Future<void> getUserData() async {
     _user = FirebaseAuth.instance.currentUser;
 
     if (_user != null) {
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
-      await FirebaseFirestore.instance
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
           .collection('users')
           .doc(_user!.uid)
           .get();
@@ -37,7 +62,8 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
         setState(() {
           _userName = snapshot.data()!['username'];
           String? profilePicture = snapshot.data()!['userPhoto'];
-          _profilePic = profilePicture != null ? NetworkImage(profilePicture) : null;
+          _profilePic =
+          profilePicture != null ? NetworkImage(profilePicture) : null;
         });
       }
     }
@@ -46,8 +72,18 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   void _signOutGoogle(BuildContext context) {
     FirebaseServices firebaseServices = FirebaseServices();
     firebaseServices.googleSignOut();
-    Navigator.push(context,
-    MaterialPageRoute(builder: (context) => SignScreen())); // Navigate back after signing out
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SignScreen(),
+      ),
+    ); // Navigate back after signing out
+  }
+
+  // Function to reset text field values
+  void clearTextFields() {
+    _nameController.clear();
+    _locationController.clear();
   }
 
   @override
@@ -75,7 +111,8 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                     Navigator.pop(context);
                   },
                 ),
-                const Expanded( // Wrap the text with Expanded to take available space
+                const Expanded(
+                  // Wrap the text with Expanded to take available space
                   child: Text(
                     'Edit Profile',
                     style: TextStyle(
@@ -111,119 +148,136 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                   top: 20,
                   right: 15,
                 ),
-                child: GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: ListView(
-                    children: [
-                      Center(
+                child: ListView(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // When the user taps the profile picture, show a dialog with the full-size image
+                        showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              child: _profilePic != null
+                                  ? Image(image: _profilePic!, fit: BoxFit.contain)
+                                  : Image.asset(
+                                "assets/images/user.png",
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Center(
                         child: Stack(
                           children: [
                             Container(
                               width: 130,
                               height: 130,
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 4,
-                                  color:Colors.white
-                                ),
+                                border: Border.all(width: 4, color: Colors.white),
                                 boxShadow: [
                                   BoxShadow(
                                     spreadRadius: 2,
                                     blurRadius: 10,
-                                    color: Colors.black.withOpacity(0.1)
-                                  )
+                                    color: Colors.black.withOpacity(0.1),
+                                  ),
                                 ],
                                 shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: _profilePic != null
-                                      ? _profilePic!
-                                      : AssetImage("assets/images/user.png"),
-                                )
+                              ),
+                              child: ClipOval(
+                                child: _profilePic != null
+                                    ? Image(image: _profilePic!, fit: BoxFit.cover)
+                                    : Image.asset(
+                                  "assets/images/user.png",
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
                             Positioned(
                               bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      width: 4,
-                                      color: Colors.white
-                                    ),
-                                    color: kPrimaryColorG1,
+                              right: 0,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(width: 4, color: Colors.white),
+                                  color: kPrimaryColorG1,
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    _pickImage();
+                                  },
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
                                   ),
-                                  child: TextButton(
-                                    onPressed: () {
-
-                                    },
-                                    child: Icon(
-                                        Icons.edit,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                )
-                            )
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      buildTextField("Name", _userName.isNotEmpty ? _userName : 'Set Name',),
-                      buildTextField("Location", "Colombo"),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          OutlinedButton(
-                              onPressed: () {},
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 50,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    buildTextField(
+                      "Name",
+                      _userName.isNotEmpty ? _userName : 'Set Name',
+                      controller: _nameController,
+                    ),
+                    buildTextField("Location", "Colombo", controller: _locationController),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        OutlinedButton(
+                          onPressed: () {
+                            // Clear text fields when "Cancel" button is pressed
+                            clearTextFields();
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 50,
                             ),
-                              child: const Text(
-                                  "Cancel",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  letterSpacing: 2,
-                                  color: Colors.black
-                                ),
-                              ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                           ),
-                          ElevatedButton(
-                              onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: kPrimaryColorG1,
-                              padding: const EdgeInsets.symmetric(horizontal: 50),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              )
+                          child: const Text(
+                            "Cancel",
+                            style: TextStyle(
+                              fontSize: 15,
+                              letterSpacing: 2,
+                              color: Colors.black,
                             ),
-                              child: const Text(
-                                "Save",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  letterSpacing: 2,
-                                  color: Colors.white,
-                                ),
-                              ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: kPrimaryColorG1,
+                            padding: const EdgeInsets.symmetric(horizontal: 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          child: const Text(
+                            "Save",
+                            style: TextStyle(
+                              fontSize: 15,
+                              letterSpacing: 2,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -233,22 +287,21 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
     );
   }
 
-  Widget buildTextField(String labelText, String placeholder) {
+  Widget buildTextField(String labelText, String placeholder, {required TextEditingController controller}) {
     return Padding(
-        padding: const EdgeInsets.only(
-          bottom: 30
-        ),
+      padding: const EdgeInsets.only(bottom: 30),
       child: TextField(
+        controller: controller,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(bottom: 5),
           labelText: labelText,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
           hintText: placeholder,
           hintStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
             color: Colors.grey,
-          )
+          ),
         ),
       ),
     );
