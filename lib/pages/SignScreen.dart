@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cogniezer_app/components/OrDivider.dart';
 import 'package:cogniezer_app/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,32 +22,34 @@ class _SignScreenState extends State<SignScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FirebaseServices _firebaseServices = FirebaseServices();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   bool _isNameValid = true;
   bool _isEmailValid = true;
   bool _isPasswordValid = true;
 
-  void _validateInputs(BuildContext context) {
-    setState(() {
-      _isNameValid = _nameController.text.isNotEmpty;
-      _isEmailValid = _emailController.text.isNotEmpty &&
-          RegExp(
-              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-              .hasMatch(_emailController.text);
-      _isPasswordValid = _passwordController.text.length >= 6;
-
-      if (_isNameValid && _isEmailValid && _isPasswordValid) {
-        _saveUserToDatabase(context);
-      }
-    });
-  }
-
-  void _saveUserToDatabase(BuildContext context) async {
+  Future<void> _saveUser(BuildContext context) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-          email: _emailController.text, password: _passwordController.text);
+      String name = _nameController.text;
+      String email = _emailController.text;
+      String password = _passwordController.text;
+
+      //Create the user in Firebase Authentication
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      //Save the user data to Firestore
       if (userCredential.user != null) {
+        String userId = userCredential.user!.uid;
+        await _firestore.collection('users').doc(userId).set({
+          'username': name,
+          'userEmail': email,
+          'userid': userId,
+          // You can add more fields here if needed
+        });
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -63,6 +66,21 @@ class _SignScreenState extends State<SignScreen> {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  void _validateInputs(BuildContext context) {
+    setState(() {
+      _isNameValid = _nameController.text.isNotEmpty;
+      _isEmailValid = _emailController.text.isNotEmpty &&
+          RegExp(
+              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              .hasMatch(_emailController.text);
+      _isPasswordValid = _passwordController.text.length >= 6;
+
+      if (_isNameValid && _isEmailValid && _isPasswordValid) {
+        _saveUser(context);
+      }
+    });
   }
 
   @override
