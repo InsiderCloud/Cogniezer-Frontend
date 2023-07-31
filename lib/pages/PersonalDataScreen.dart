@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../constants.dart';
 import '../profileController.dart';
@@ -21,7 +18,6 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   late User? _user;
   late String _userName = '';
   ImageProvider<Object>? _profilePic;
-  File? _selectedImage;
 
   // Create TextEditingController for each text field
   final TextEditingController _nameController = TextEditingController();
@@ -74,40 +70,40 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
     ); // Navigate back after signing out
   }
 
-  Future<void> _saveData() async {
-    // First, check if the user has selected a new image
-    if (_selectedImage != null) {
-      // Upload the selected image to Firebase Storage
-      String? downloadURL = await FirebaseServices().uploadImageToStorage(_selectedImage!);
-
-      if (downloadURL != null) {
-        // If the image upload is successful, update the 'userPhoto' field in Firestore
-        await FirebaseServices().updateUserData(_user!.uid, {'userPhoto': downloadURL});
-
-        // Clear the selectedImage and reload the user data to update the profile picture
-        setState(() {
-          _selectedImage = null;
-          _profilePic = NetworkImage(downloadURL);
-        });
-      }
-    }
-
-    // Then, update the 'username' field in Firestore with the new value from the text field
-    String newName = _nameController.text.trim();
-    if (newName.isNotEmpty) {
-      await FirebaseServices().updateUserData(_user!.uid, {'username': newName});
-      setState(() {
-        _userName = newName;
-      });
-    }
-
-    // You can also update other fields (e.g., 'location') similarly if needed
-
-    // Show a snackbar to indicate that data has been saved
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Data saved successfully!')),
-    );
-  }
+  // Future<void> _saveData() async {
+  //   // First, check if the user has selected a new image
+  //   if (_selectedImage != null) {
+  //     // Upload the selected image to Firebase Storage
+  //     String? downloadURL = await FirebaseServices().uploadImageToStorage(_selectedImage!);
+  //
+  //     if (downloadURL != null) {
+  //       // If the image upload is successful, update the 'userPhoto' field in Firestore
+  //       await FirebaseServices().updateUserData(_user!.uid, {'userPhoto': downloadURL});
+  //
+  //       // Clear the selectedImage and reload the user data to update the profile picture
+  //       setState(() {
+  //         _selectedImage = null;
+  //         _profilePic = NetworkImage(downloadURL);
+  //       });
+  //     }
+  //   }
+  //
+  //   // Then, update the 'username' field in Firestore with the new value from the text field
+  //   String newName = _nameController.text.trim();
+  //   if (newName.isNotEmpty) {
+  //     await FirebaseServices().updateUserData(_user!.uid, {'username': newName});
+  //     setState(() {
+  //       _userName = newName;
+  //     });
+  //   }
+  //
+  //   // You can also update other fields (e.g., 'location') similarly if needed
+  //
+  //   // Show a snackbar to indicate that data has been saved
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(content: Text('Data saved successfully!')),
+  //   );
+  // }
 
   void clearTextFields() {
     _nameController.clear();
@@ -218,8 +214,8 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                                           shape: BoxShape.circle,
                                         ),
                                         child: ClipOval(
-                                          child: _selectedImage != null
-                                              ? Image.file(_selectedImage!, fit: BoxFit.cover)
+                                          child: provider.image != null
+                                              ? Image.file(provider.image!, fit: BoxFit.cover)
                                               : (_profilePic != null
                                               ? Image(image: _profilePic!, fit: BoxFit.cover)
                                               : Image.asset(
@@ -241,7 +237,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                                           ),
                                           child: TextButton(
                                             onPressed: () {
-                                              provider..pickImage(context);
+                                              provider.pickImage(context);
                                             },
                                             child: const Icon(
                                               Icons.edit,
@@ -292,7 +288,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
-                                      _saveData(); // Navigate back after saving
+                                      // _saveData(); // Navigate back after saving
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: kPrimaryColorG1,
