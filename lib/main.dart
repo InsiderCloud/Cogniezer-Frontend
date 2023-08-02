@@ -20,11 +20,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(DevicePreview(
-    builder: (context) => MyApp(), // Wrap your app
+    builder: (context) => const MyApp(), // Wrap your app
   ),);
 }
 
 class MyApp extends StatelessWidget{
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context){
     return MaterialApp(
@@ -36,15 +38,15 @@ class MyApp extends StatelessWidget{
       ),
       initialRoute: '/',
       routes: {
-        '/voiceToText': (context) => VoiceToTextScreen(),
+        '/voiceToText': (context) => const VoiceToTextScreen(),
         '/toDo': (context) => ToDoScreen(),
-        '/taskReminder': (context) => TaskReminderScreen(),
-        '/adhdTest': (context) => ADHDTestScreen(),
-        '/personal_data': (context) => PersonalDataScreen(),
-        '/security': (context) => SecurityScreen(),
-        '/contact_us': (context) => ContactUsScreen(),
-        '/rate_app': (context) => RateAppScreen(),
-        '/about_us': (context) => AboutUsScreen(),
+        '/taskReminder': (context) => const TaskReminderScreen(),
+        '/adhdTest': (context) => const ADHDTestScreen(),
+        '/personal_data': (context) => const PersonalDataScreen(),
+        '/security': (context) => const SecurityScreen(),
+        '/contact_us': (context) => const ContactUsScreen(),
+        '/rate_app': (context) => const RateAppScreen(),
+        '/about_us': (context) => const AboutUsScreen(),
       },
       home: SplashScreen(),
     );
