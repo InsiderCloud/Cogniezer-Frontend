@@ -25,7 +25,6 @@ class ToolsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               customDivider(),
-              const SizedBox(height: 30),
               Expanded(
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
@@ -88,7 +87,7 @@ class ToolsScreen extends StatelessWidget {
           width: 400,
           height: 100,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: kPrimaryColorG1.withOpacity(0.9),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: kPrimaryColorG1,
@@ -104,7 +103,7 @@ class ToolsScreen extends StatelessWidget {
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: kPrimaryColorG1,
+              color: Colors.white,
             ),
           ),
         ),
@@ -117,7 +116,7 @@ class ToolsScreen extends StatelessWidget {
             },
             child: const Icon(
               Icons.arrow_forward,
-              color: kPrimaryColorG1,
+              color: Colors.white,
             ),
           ),
         ),
