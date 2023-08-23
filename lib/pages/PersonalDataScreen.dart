@@ -287,8 +287,15 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                                     ),
                                   ),
                                   ElevatedButton(
-                                    onPressed: () {
-                                      // _saveData(); // Navigate back after saving
+                                    onPressed: () async {
+                                      ProfileController profileController = Provider.of<ProfileController>(context, listen: false);
+                                      String? downloadURL = await profileController.uploadImage();
+
+                                      if(downloadURL != null) {
+                                        setState(() {
+                                          _profilePic = NetworkImage(downloadURL);
+                                        });
+                                      }// Navigate back after saving
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: kPrimaryColorG1,
