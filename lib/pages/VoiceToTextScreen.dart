@@ -1,5 +1,9 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+
+import 'dart:convert';
 
 import '../constants.dart';
 
@@ -12,8 +16,90 @@ class VoiceToTextScreen extends StatefulWidget {
 
 class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
   bool isListening = false;
+  stt.SpeechToText _speech = stt.SpeechToText();
   TextEditingController _userInputController = TextEditingController();
   TextEditingController _summarizationController = TextEditingController();
+
+  Future<String> _getAudioSummarize(String audioText) async {
+    final url = "http://20.197.17.170:8000/api/uploadfile";
+    final response = await http.post(
+      Uri.parse(url),
+      body: json.encode({"audioText": audioText}),
+      headers: {"Content-Type": "application/json"},
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      final summary = responseData['summary'];
+      return summary;
+    } else {
+      throw Exception('Failed to load summary');
+    }
+  }
+
+  Future<void> _initializeSpeechRecognizer() async {
+    if (await _speech.initialize()) {
+      print("Speech recognition is available");
+    } else {
+      print("Speech recognition is not available");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeSpeechRecognizer();
+  }
+
+  @override
+  void dispose() {
+    _userInputController.dispose();
+    _summarizationController.dispose();
+    _speech.stop();
+    super.dispose();
+  }
+
+  Future<void> _toggleListening() async {
+    if (isListening) {
+      _speech.stop();
+      setState(() {
+        isListening = false;
+      });
+
+      // Get the recognized speech
+      final recognizedSpeech = _userInputController.text;
+
+      // Call the summarization API and update the _summarizationController
+      _getAndSetSummary(recognizedSpeech);
+    } else {
+      bool available = await _speech.initialize();
+      if (available) {
+        setState(() {
+          isListening = true;
+        });
+        _speech.listen(
+          onResult: (result) {
+            setState(() {
+              _userInputController.text = result.recognizedWords;
+            });
+          },
+        );
+      } else {
+        print("Speech recognition is not available");
+      }
+    }
+  }
+
+  Future<void> _getAndSetSummary(String recognizedSpeech) async {
+    try {
+      final summary = await _getAudioSummarize(recognizedSpeech);
+      setState(() {
+        _summarizationController.text = summary;
+      });
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +149,8 @@ class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
                 ),
               ),
               child: SingleChildScrollView(
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 child: Column(
                   children: [
                     const SizedBox(height: 30),
@@ -82,7 +169,7 @@ class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
                         controller: _userInputController,
                         maxLines: 8,
                         decoration: const InputDecoration(
-                          hintText: "Press the button to peak or type here...",
+                          hintText: "Press the button to speak or type here...",
                           border: InputBorder.none,
                         ),
                       ),
@@ -96,10 +183,9 @@ class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
                       glowColor: kPrimaryColorG2,
                       duration: Duration(milliseconds: 1000),
                       child: FloatingActionButton(
-                        onPressed: () {},
-                        child: Icon( isListening ? Icons.mic : Icons.mic_none),
+                        onPressed: _toggleListening,
+                        child: Icon(isListening ? Icons.mic : Icons.mic_none),
                         backgroundColor: kPrimaryColorG1,
-
                       ),
                     ),
                     const SizedBox(height: 20),

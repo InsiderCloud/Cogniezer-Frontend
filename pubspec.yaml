@@ -47,6 +47,8 @@ dependencies:
   ionicons: ^0.2.2
   avatar_glow: ^2.0.2
   image_picker: ^1.0.1
+  http: ^0.13.5
+  speech_to_text: ^6.1.1
 
 
   # The following adds the Cupertino Icons font to your application.
