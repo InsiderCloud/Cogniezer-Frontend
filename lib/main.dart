@@ -5,7 +5,7 @@ import 'package:cogniezer_app/pages/PersonalDataScreen.dart';
 import 'package:cogniezer_app/pages/RateAppScreen.dart';
 import 'package:cogniezer_app/pages/SecurityScreen.dart';
 import 'package:cogniezer_app/pages/SplashScreen.dart';
-import 'package:cogniezer_app/pages/TaskReminderScreen.dart';
+//import 'package:cogniezer_app/pages/TaskReminderScreen.dart';
 import 'package:cogniezer_app/pages/ToDoScreen.dart';
 import 'package:cogniezer_app/pages/VoiceToTextScreen.dart';
 
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget{
       routes: {
         '/voiceToText': (context) => const VoiceToTextScreen(),
         '/toDo': (context) => ToDoScreen(),
-        '/taskReminder': (context) => const TaskReminderScreen(),
+        //'/taskReminder': (context) => const TaskReminderScreen(),
         '/adhdTest': (context) => const ADHDTestScreen(),
         '/personal_data': (context) => const PersonalDataScreen(),
         '/security': (context) => const SecurityScreen(),
