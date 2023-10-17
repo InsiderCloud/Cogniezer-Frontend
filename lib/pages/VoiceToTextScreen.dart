@@ -16,15 +16,17 @@ class VoiceToTextScreen extends StatefulWidget {
 
 class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
   bool isListening = false;
-  stt.SpeechToText _speech = stt.SpeechToText();
-  TextEditingController _userInputController = TextEditingController();
-  TextEditingController _summarizationController = TextEditingController();
+  final stt.SpeechToText _speech = stt.SpeechToText();
+  final TextEditingController _userInputController = TextEditingController();
+  final TextEditingController _summarizationController =
+      TextEditingController();
 
-  Future<String> _getAudioSummarize(String audioText) async {
-    final url = "http://20.197.17.170:8000/api/uploadfile";
+  Future<String> _summarizeText(String inputText) async {
+    final url = "http://20.197.17.170:8000/api/predict";
+
     final response = await http.post(
       Uri.parse(url),
-      body: json.encode({"audioText": audioText}),
+      body: json.encode({"text": inputText}),
       headers: {"Content-Type": "application/json"},
     );
 
@@ -60,18 +62,7 @@ class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
   }
 
   Future<void> _toggleListening() async {
-    if (isListening) {
-      _speech.stop();
-      setState(() {
-        isListening = false;
-      });
-
-      // Get the recognized speech
-      final recognizedSpeech = _userInputController.text;
-
-      // Call the summarization API and update the _summarizationController
-      _getAndSetSummary(recognizedSpeech);
-    } else {
+    if (!isListening) {
       bool available = await _speech.initialize();
       if (available) {
         setState(() {
@@ -84,15 +75,19 @@ class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
             });
           },
         );
-      } else {
-        print("Speech recognition is not available");
       }
+    } else {
+      setState(() {
+        isListening = false;
+      });
+      _speech.stop();
+      await _getAndSetSummary(_userInputController.text);
     }
   }
 
-  Future<void> _getAndSetSummary(String recognizedSpeech) async {
+  Future<void> _getAndSetSummary(String inputText) async {
     try {
-      final summary = await _getAudioSummarize(recognizedSpeech);
+      final summary = await _summarizeText(inputText);
       setState(() {
         _summarizationController.text = summary;
       });
@@ -174,7 +169,7 @@ class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     // Floating Action Button
                     AvatarGlow(
                       animate: isListening,
@@ -188,7 +183,7 @@ class _VoiceToTextScreenState extends State<VoiceToTextScreen> {
                         backgroundColor: kPrimaryColorG1,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     // Summarization text field
                     Container(
                       width: double.infinity,
